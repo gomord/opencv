@@ -107,8 +107,8 @@ int init_motor(int max_x,int max_y){
 		motor_io[i] = i;
 		pinMode(motor_io[i], OUTPUT);
 	}
-	//setuid(PI_UID);
-	//setgid(PI_GID);
+	setuid(PI_UID);
+	setgid(PI_GID);
 	init_timers();
 }
 static int set_motor(int motor){
@@ -191,10 +191,11 @@ int main(){
 
 }
 #endif// MOTOR_MAIN
-int exit_timers(){
+int exit_motors(){
 	int i;
-	//for(i=0; i<MAX_TIMERS;i++){
-	//}
+	for(i=0; i<MAX_MOTORS;i++){
+		digitalWrite (motor_io[i], LOW) ;	// Off
+	}
 	return 0;
 	
 }

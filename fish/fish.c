@@ -311,5 +311,6 @@ int main( int argc, char** argv ) {
 	printf("time of prog %f, numframe %d,numframe for sec %d\n",
 		time_spent,mod,mod/(int)time_spent);
 	exit_fish();
+	exit_motors();
 	return(0);
 }
