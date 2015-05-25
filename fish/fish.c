@@ -161,16 +161,16 @@ int set_range_pos( IplImage* frame){
 }
 void fish_motor(CvPoint objPos){
 	if(g_range.x - objPos.x > 3*g_range.width/4){
-//		ctlMotor('r');
+		ctlMotor('r');
 	}	
 	else if(g_range.x - objPos.x < g_range.width/4){
-//		ctlMotor('l');
+		ctlMotor('l');
 	}	
 	if(g_range.y - objPos.y > 3*g_range.height/4){
-//		ctlMotor('d');
+		ctlMotor('d');
 	}	
 	else if(g_range.y - objPos.y < g_range.height/4){
-//		ctlMotor('u');
+		ctlMotor('u');
 	}	
 }
 CvMoments mom = {0};
@@ -283,8 +283,8 @@ void exit_fish(){
 }
 int main( int argc, char** argv ) {
 	char c;
+	init_motor(frameSize.width,frameSize.height);
 	init_fish();	
-	//init_motor(frameSize.width,frameSize.height);
 	//printf("hacked frames %d w %d h %d\n",frames,tmpw,tmph);
 
 	begin = clock();
@@ -299,7 +299,7 @@ int main( int argc, char** argv ) {
 		if( c == 'c'){
 			while(1){
 				c = getchar();
-//				if(ctlMotor(c)<0) break;
+				if(ctlMotor(c)<0) break;
 				
 			}
 		}
