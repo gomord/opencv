@@ -101,13 +101,14 @@ int init_motor(int max_x,int max_y){
 	g_max_x = max_x;
 	g_max_y = max_y;	
 	wiringPiSetup();
+	//wiringPiSetupSys();
 	
 	for(i=0;i<MAX_MOTORS;i++){
 		motor_io[i] = i;
 		pinMode(motor_io[i], OUTPUT);
 	}
-	setuid(PI_UID);
-	setgid(PI_GID);
+	//setuid(PI_UID);
+	//setgid(PI_GID);
 	init_timers();
 }
 static int set_motor(int motor){
