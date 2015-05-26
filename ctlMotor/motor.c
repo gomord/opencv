@@ -123,8 +123,13 @@ int init_motor(int max_x,int max_y){
 	int i;
 	g_max_x = max_x;
 	g_max_y = max_y;	
+<<<<<<< HEAD
 	//wiringPiSetup();
 	//wiringPiSetupGPIO();
+=======
+	wiringPiSetup();
+	//wiringPiSetupSys();
+>>>>>>> 6a5f56c41d31ff2474a1964ec0f0dd36e4b46edb
 	
 	for(i=0;i<MAX_MOTORS;i++){
 		motor_io[i] = i;
