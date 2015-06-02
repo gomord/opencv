@@ -15,10 +15,10 @@
 #define OUTPUT 1
 #define LOW 0
 #define HIGH 1
-#define UP_MOTOR 1
-#define DOWN_MOTOR 2
-#define LEFT_MOTOR 0
-#define RIGHT_MOTOR 3
+#define UP_MOTOR 2
+#define DOWN_MOTOR 3
+#define LEFT_MOTOR 1
+#define RIGHT_MOTOR 0
 #define INT_SEC 2
 #define INT_MSEC 0//100
 #define INT_NSEC INT_MSEC*1000000 //
@@ -141,6 +141,7 @@ static int set_motor(int motor){
 	//to dogpio set
 	timer_gettime(timerid[motor],&curr_vall);
 	ts = &(curr_vall.it_value);
+	printf("gpio - %d\n",motor_io[motor]); 
 	if(ts->tv_sec == (time_t)0 && ts->tv_nsec == 0){
 		printf("set motor x=%d\n",motor);
 		clocks[motor] = time(NULL);

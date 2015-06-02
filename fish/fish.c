@@ -4,17 +4,18 @@
 #include "highgui.h"
 #include "mouse.h"
 #include "../ctlMotor/motor.h"
+#define SHOW_IMAGE 1
 #define AVG_POS 0
 #define RANGE_POS 1
-int        g_slider_hue_max = 186;
-int        g_slider_hue_min = 123;
-int        g_slider_sat_max = 193;
-int        g_slider_sat_min = 89;
-int        g_slider_val_max = 249;
-int        g_slider_val_min = 81;
+int        g_slider_hue_max = 63 + 17;
+int        g_slider_hue_min = 63 - 17;
+int        g_slider_sat_max = 59 + 19;
+int        g_slider_sat_min = 59 - 19;
+int        g_slider_val_max = 49 + 20;
+int        g_slider_val_min = 49 - 20;
 int        g_mouse	    = 0;
-CvRect	   g_range ;
-int	   g_is_range = 0;
+CvRect	   g_range;  
+int	   g_is_range = 1;
 CvScalar   g_hsv_max;
 CvScalar   g_hsv_min;
 CvCapture* g_capture         = NULL;
@@ -146,7 +147,8 @@ int set_avg_pos( IplImage* frame){
 	cvResetImageROI(frame);
 	//cvCvtColor(frame,frame,CV_HSV2RGB);
 	draw_box(frame,g_msPrm.box);
-	cvShowImage("Camera",frame);
+	if(SHOW_IMAGE == 1)
+		cvShowImage("Camera",frame);
 	return 0;
 
 }
@@ -156,7 +158,8 @@ int set_range_pos( IplImage* frame){
 	printf("range %d %d %d %d\n",
 		g_range.x,g_range.y,g_range.width,g_range.height);
 	g_is_range = 1;
-	cvShowImage("Camera",frame);
+	if(SHOW_IMAGE == 1)
+		cvShowImage("Camera",frame);
 	return 0;
 }
 void fish_motor(CvPoint objPos){
@@ -164,16 +167,19 @@ void fish_motor(CvPoint objPos){
 		objPos.x, objPos.y, g_range.x, g_range.y,
 		g_range.width, g_range.height);
 */
-	if(objPos.x - g_range.x > 5*g_range.width/8){
+	if(objPos.x == 0 && objPos.y == 0){
+		return;
+	}
+	if(objPos.x - g_range.x < 3*g_range.width/10){
 		ctlMotor('r');
 	}	
-	else if(objPos.x - g_range.x < 3*g_range.width/8){
+	else if(objPos.x - g_range.x > 7*g_range.width/10){
 		ctlMotor('l');
 	}	
-	if(objPos.y - g_range.y > 5*g_range.height/8){
+	if(objPos.y - g_range.y < 3*g_range.height/10){
 		ctlMotor('d');
 	}	
-	else if(objPos.y - g_range.y < 3*g_range.height/8){
+	else if(objPos.y - g_range.y > 7*g_range.height/10){
 		ctlMotor('u');
 	}	
 }
@@ -186,6 +192,7 @@ IplImage* gr_frame;
 CvSize    frameSize ;
 
 int init_fish(){
+	//if(SHOW_IMAGE == 1)
 	cvNamedWindow( "set_HSV", CV_WINDOW_NORMAL);
 	cvNamedWindow( "Camera", CV_WINDOW_NORMAL);
 	set_mouse_bar("Camera");
@@ -247,7 +254,8 @@ void get_fish_pos(){
 			 cvScalar(0x00,0x00,0x00,0),1,8,0
 			 );
 		//if(!(++mod&0x3))
-		cvShowImage("Camera",frame);
+		if(SHOW_IMAGE == 1)
+			cvShowImage("Camera",frame);
 		if(g_is_range){
 			cvSetImageROI(frame,g_range);
 			cvSetZero(gr_frame);
@@ -271,7 +279,8 @@ void get_fish_pos(){
 		fishPos.x = (mom.m10/mom.m00);
 		fishPos.y = (mom.m01/mom.m00);
 
-		cvShowImage( "set_HSV", gr_frame );
+		if(SHOW_IMAGE == 1)
+			cvShowImage( "set_HSV", gr_frame );
 //			cvErode(gr_frame,gr_frame,NULL,10);
 #endif
 	}
@@ -281,12 +290,14 @@ void exit_fish(){
 	cvReleaseImage( &cl_frame );
 	cvReleaseImage( &cl_frame_temp );
 	cvReleaseCapture( &g_capture );
-	//cvDestroyWindow( "set_HSV" );
+	if(SHOW_IMAGE == 1)
+		cvDestroyWindow( "set_HSV" );
 	cvDestroyWindow( "Camera" );
 
 }
 int main( int argc, char** argv ) {
 	char c;
+	g_range  = cvRect(111,68,470,364);
 	init_motor(frameSize.width,frameSize.height);
 	init_fish();	
 	//printf("hacked frames %d w %d h %d\n",frames,tmpw,tmph);
@@ -295,8 +306,8 @@ int main( int argc, char** argv ) {
 #if 1
 	while(1) {
 		get_fish_pos();
-		
-		cvShowImage( "set_HSV", gr_frame );
+		if(SHOW_IMAGE == 1)	
+			cvShowImage( "set_HSV", gr_frame );
 		fish_motor(fishPos);
 		c = (char)cvWaitKey(50);
 		if( c == 27 ) break;
