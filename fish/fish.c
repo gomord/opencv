@@ -5,8 +5,8 @@
 #include "mouse.h"
 #include "../ctlMotor/motor.h"
 #define SHOW_IMAGE 1
-#define AVG_POS 0
-#define RANGE_POS 1
+#define AVG_POS 1
+#define RANGE_POS 2
 int        g_slider_hue_max = 63 + 17;
 int        g_slider_hue_min = 63 - 17;
 int        g_slider_sat_max = 59 + 19;
@@ -43,10 +43,10 @@ void onTrackbarMouse(int pos){
 	printf("test pos %d, g_mouse %d\n",pos, g_mouse);
 }
 void set_mouse_bar(const char* win_name){
-	cvCreateTrackbar("avg-range",
+	cvCreateTrackbar("null-avg-range",
 			win_name,
 			&g_mouse,
-			1,
+			2,
 			onTrackbarMouse);
 }
 void set_trac_bar(const char* win_name){
