@@ -163,6 +163,7 @@ int set_range_pos( IplImage* frame){
 	return 0;
 }
 void fish_motor(CvPoint objPos){
+<<<<<<< HEAD
 /*	printf("ob-x %d ob-y %d r-x %d r-y %d y-w %d r-h %d\n",
 		objPos.x, objPos.y, g_range.x, g_range.y,
 		g_range.width, g_range.height);
@@ -179,7 +180,23 @@ void fish_motor(CvPoint objPos){
 	if(objPos.y - g_range.y < 3*g_range.height/10){
 		ctlMotor('d');
 	}	
+<<<<<<< HEAD
 	else if(objPos.y - g_range.y > 7*g_range.height/10){
+=======
+	else if(objPos.y - g_range.y < 3*g_range.height/8){
+=======
+	if(g_range.x - objPos.x > 3*g_range.width/4){
+		ctlMotor('r');
+	}	
+	else if(g_range.x - objPos.x < g_range.width/4){
+		ctlMotor('l');
+	}	
+	if(g_range.y - objPos.y > 3*g_range.height/4){
+		ctlMotor('d');
+	}	
+	else if(g_range.y - objPos.y < g_range.height/4){
+>>>>>>> 6a5f56c41d31ff2474a1964ec0f0dd36e4b46edb
+>>>>>>> 286a4f38f1bbfcb7c28fffe457b2833addf3da6a
 		ctlMotor('u');
 	}	
 }

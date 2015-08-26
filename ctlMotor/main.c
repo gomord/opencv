@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -24,6 +25,16 @@ int main(){
 //		}
 //		c = buf[0];
 		printf("char %c\n",c);
+=======
+#include <stdio.h>
+#include "motor.h"
+int main(){
+	char c;
+	init_motor(10,10);
+
+	while(c != 27){
+		c = getchar();
+>>>>>>> 6a5f56c41d31ff2474a1964ec0f0dd36e4b46edb
 		if(ctlMotor(c) < 0) break;
 
 	}
